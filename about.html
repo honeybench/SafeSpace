@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeSpace - About</title>
+    <style>
+        :root { --grad-start: #1fb1b1; --grad-end: #7ed957; --dark: #212121; --transition: all 0.4s ease; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #f0f2f5; }
+        header { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); color: white; padding: 40px; text-align: center; }
+        nav { background-color: var(--dark); padding: 15px; text-align: center; }
+        nav a { margin: 0 20px; text-decoration: none; color: white; font-weight: bold; transition: var(--transition); }
+        nav a:hover { color: var(--grad-end); }
+
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; max-width: 1000px; margin: 50px auto; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .about-text { padding: 40px; }
+        .about-image { background: url('https://plus.unsplash.com/premium_photo-1733342422588-c2fc9e279836?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover; }
+        
+        h2 { color: var(--grad-start); border-left: 5px solid var(--grad-end); padding-left: 15px; }
+        h3 { color: var(--grad-start); }
+        .sdg-section { background-color: #4c9f38; color: white; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        
+        .description-box { background-color: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 25px; }
+
+        footer { background-color: var(--dark); color: white; padding: 20px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <header><h1>Background of SafeSpace</h1></header> 
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="features.html">Features</a>
+        <a href="community.html">Community</a>
+        <a href="contacts.html">Contact</a>
+    </nav>
+
+    <main class="about-grid">
+        <div class="about-text">
+            <h2>What is SafeSpace?</h2>
+            <div class="description-box">
+                <p><strong>SafeSpace</strong> is a dedicated digital sanctuary designed for students to express their emotions, share their daily struggles, and find community support without the fear of being identified or judged. It serves as a bridge between mental health awareness and active peer support.</p>
+            </div>
+
+            <h2>Purpose and Goals</h2> 
+            <p>Our goal is to provide a non-judgmental environment for students to share thoughts and reduce the stigma surrounding mental health issues in academic settings.</p> 
+            
+            <div class="sdg-section">
+                <h3>Connection to SDG 3</h3> 
+                <p>Ensuring healthy lives and promoting well-being for all students by providing accessible emotional support tools.</p>
+            </div>
+
+            <h3 style="margin-top:30px;">Team Members</h3>
+            <p>Alcantara, Honey Bench P. | Azures, Rachel P. | Verganio, Renalyn A.</p> 
+        </div>
+        <div class="about-image"></div>
+    </main>
+
+    <footer><p>Group Name: SafeSpace</p></footer> 
+</body>
+</html>

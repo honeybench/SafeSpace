@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeSpace - Home</title>
+    <style>
+        :root { --gradient-start: #1fb1b1; --gradient-end: #7ed957; --dark-bg: #212121; --white: #ffffff; --light-bg: #f8f9fa; --transition: all 0.4s ease-in-out; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background-color: var(--light-bg); color: #333; line-height: 1.6; }
+        header { background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end)); padding: 60px 20px; text-align: center; color: var(--white); margin: 20px; border-radius: 50px; }
+        nav { background-color: var(--dark-bg); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
+        nav a { margin: 0 20px; text-decoration: none; color: var(--white); font-weight: bold; transition: var(--transition); padding: 5px 10px; }
+        nav a:hover { color: var(--gradient-end); }
+        .hero { padding: 40px 20px; text-align: center; color: #444; }
+        .feature-container { display: flex; justify-content: center; gap: 30px; padding: 50px; flex-wrap: wrap; }
+        .card { background: var(--white); border-radius: 12px; overflow: hidden; width: 300px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: var(--transition); text-align: center; padding-bottom: 20px; }
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card h3 { color: var(--gradient-start); padding: 10px; }
+        .card-btn { display: inline-block; margin-top: 15px; padding: 10px 25px; background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end)); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; transition: var(--transition); }
+        .card-btn:hover { opacity: 0.9; transform: scale(1.05); }
+        footer { background-color: var(--dark-bg); color: var(--white); padding: 30px; text-align: center; margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <header><h1>🌿SafeSpace</h1><p>Your safe place to share and feel better</p></header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="features.html">Features</a>
+        <a href="community.html">Community</a>
+        <a href="contacts.html">Contact</a>
+    </nav>
+    <main>
+        <section class="hero"><h2>Welcome</h2><p>You are not alone 💚 This is your safe space to share, express, and feel supported.</p></section>
+        <section class="feature-container">
+            <div class="card">
+                <img src="https://s3.us-east-2.amazonaws.com/claritychi.com-wpcontent/2020/01/AdobeStock_79579109-scaled.jpeg">
+                <h3>Community Support Feed</h3><p>Read others' shared experiences so you feel less alone.</p>
+                <a href="community.html" class="card-btn">View Feed</a>
+            </div>
+            <div class="card">
+                <img src="https://media.istockphoto.com/id/1281048080/photo/smiling-woman-wearing-a-yellow-hooded-sweatshirt.jpg?s=612x612&w=0&k=20&c=0n_36jUmWTtvG0Ts62CN1r5LlBA3upD9Tx6II-G_ZGU=">
+                <h3>Anonymous Sharing</h3><p>Express yourself freely and safely without judgment.</p>
+                <a href="community.html" class="card-btn">Share Now</a>
+            </div>
+            <div class="card">
+                <img src="https://cdn.creativefabrica.com/2025/05/17/Meditation-Background-Wallpaper-Graphics-122256115-1.jpg">
+                <h3>Mental Health Tips</h3><p>Coping strategies for stress and anxiety.</p>
+                <a href="features.html" class="card-btn">Read Tips</a>
+            </div>
+        </section>
+    </main>
+    <footer><p>&copy; 2026 SafeSpace | Alcantara, Azures, Verganio</p></footer>
+</body>
+</html>

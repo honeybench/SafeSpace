@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeSpace - Community</title>
+    <style>
+        :root { --grad-start: #1fb1b1; --grad-end: #7ed957; --dark: #212121; --transition: all 0.3s ease-in-out; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #f0f2f5; }
+        header { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); color: white; padding: 40px; text-align: center; }
+        nav { background-color: var(--dark); padding: 15px; text-align: center; }
+        nav a { margin: 0 20px; text-decoration: none; color: white; font-weight: bold; transition: var(--transition); }
+        nav a:hover { color: var(--grad-end); }
+
+        .container { max-width: 800px; margin: 40px auto; padding: 20px; }
+        .post-box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid var(--grad-end); }
+        
+        textarea { width: 100%; height: 120px; border: 2px solid #e2e8f0; border-radius: 8px; padding: 15px; font-size: 16px; transition: var(--transition); box-sizing: border-box; }
+        textarea:focus { border-color: var(--grad-start); outline: none; }
+        
+        .btn { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: bold; margin-top: 15px; float: right; transition: var(--transition); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(31, 177, 177, 0.4); }
+
+        .feed-item { background: white; padding: 20px; border-radius: 10px; margin-top: 20px; display: flex; align-items: flex-start; gap: 15px; border-left: 5px solid var(--grad-start); }
+        .avatar { width: 50px; height: 50px; background: var(--grad-start); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
+
+        footer { background-color: var(--dark); color: white; padding: 30px; text-align: center; margin-top: 50px; clear: both; }
+    </style>
+</head>
+<body>
+
+    <header><h1>Anonymous Sharing Platform</h1></header> 
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="features.html">Features</a>
+        <a href="community.html">Community</a>
+        <a href="contacts.html">Contact</a>
+    </nav>
+
+    <main class="container">
+        <div class="post-box">
+            <h3>Share Your Thoughts Anonymously</h3> 
+            <textarea id="thoughtInput" placeholder="Write freely and safely here..."></textarea> 
+            <button id="postBtn" class="btn">Post Anonymously</button>
+            <div style="clear:both;"></div>
+        </div>
+
+        <h3 style="margin-top:40px;">Community Feed</h3> 
+        
+        <div id="feedContainer">
+            <div class="feed-item">
+                <div class="avatar">AU</div>
+                <div>
+                    <p><strong>Anonymous User</strong></p> 
+                    <p>"Reading these posts helps me feel less alone in my struggles."</p> 
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Privacy Policy | Terms of Service | Help Center</p> 
+    </footer>
+
+    <script>
+        const thoughtInput = document.getElementById('thoughtInput');
+        const postBtn = document.getElementById('postBtn');
+        const feedContainer = document.getElementById('feedContainer');
+
+        // Load saved thoughts from local storage when page opens
+        document.addEventListener('DOMContentLoaded', loadLocalStoragePosts);
+
+        // Click event handler to add a new post
+        postBtn.addEventListener('click', () => {
+            const textContent = thoughtInput.value.trim();
+
+            if (textContent === "") {
+                alert("Your thought cannot be empty! Please share something safe.");
+                return;
+            }
+
+            const postObj = {
+                text: textContent
+            };
+
+            // 1. Save data object to browser LocalStorage memory
+            savePostToLocalStorage(postObj);
+
+            // 2. Render visually into HTML feed container at the top
+            renderPostCard(postObj, true);
+
+            // 3. Clear out text field for the next thought
+            thoughtInput.value = "";
+        });
+
+        // Function that structurally replicates your original HTML design classes
+        function renderPostCard(post, isBrandNew) {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'feed-item';
+
+            itemElement.innerHTML = `
+                <div class="avatar">AU</div>
+                <div>
+                    <p><strong>Anonymous User</strong></p>
+                    <p>"${post.text}"</p>
+                </div>
+            `;
+
+            // If it's a freshly pushed thought, place it on top of the container feed
+            if (isBrandNew) {
+                feedContainer.insertBefore(itemElement, feedContainer.firstChild);
+            } else {
+                feedContainer.appendChild(itemElement);
+            }
+        }
+
+        function savePostToLocalStorage(post) {
+            let postsArray = localStorage.getItem('safeSpaceData') ? JSON.parse(localStorage.getItem('safeSpaceData')) : [];
+            postsArray.unshift(post);
+            localStorage.setItem('safeSpaceData', JSON.stringify(postsArray));
+        }
+
+        function loadLocalStoragePosts() {
+            let postsArray = localStorage.getItem('safeSpaceData') ? JSON.parse(localStorage.getItem('safeSpaceData')) : [];
+            postsArray.forEach(post => {
+                renderPostCard(post, false);
+            });
+        }
+    </script>
+
+</body>
+</html>

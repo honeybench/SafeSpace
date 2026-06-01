@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeSpace - Features</title>
+    <style>
+        :root { --grad-start: #1fb1b1; --grad-end: #7ed957; --dark: #212121; --transition: all 0.4s ease; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #f0f2f5; color: #333; }
+        header { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); color: white; padding: 40px; text-align: center; }
+        nav { background-color: var(--dark); padding: 15px; text-align: center; }
+        nav a { margin: 0 20px; text-decoration: none; color: white; font-weight: bold; transition: var(--transition); }
+        nav a:hover { color: var(--grad-end); }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .section-title { color: var(--grad-start); border-left: 5px solid var(--grad-end); padding-left: 15px; margin-bottom: 30px; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 50px; }
+        .feature-item { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .feature-item h3 { color: var(--grad-start); margin-top: 0; }
+        .tips-container { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        
+        /* Styled sub-sections inside the container */
+        .tips-category-section { margin-bottom: 35px; }
+        .tips-category-section:last-child { margin-bottom: 0; }
+        .tips-category-title { color: var(--dark); font-size: 1.4rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #f0f2f5; padding-bottom: 8px; }
+        
+        /* Unified tip list items */
+        .tips-list { list-style: none; padding-left: 0; margin: 0; }
+        .tips-list > li { font-size: 1.05rem; padding: 10px 0; border-bottom: 1px solid #f7f9fa; color: #444; }
+        .tips-list > li:last-child { border-bottom: none; }
+        
+        /* Grounding block specifically structured for the 3-3-3 rule breakdown */
+        .grounding-box { background-color: #f4fbfb; border-left: 4px solid var(--grad-start); padding: 20px; border-radius: 8px; margin-top: 15px; }
+        .grounding-title { color: var(--grad-start); font-weight: bold; font-size: 1.1rem; margin-bottom: 12px; display: block; }
+        .grounding-sublist { list-style-type: none; padding-left: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+        .grounding-sublist li { font-size: 0.98rem; color: #4b5563; line-height: 1.5; }
+        .grounding-sublist strong { color: var(--dark); }
+
+        footer { background-color: var(--dark); color: white; padding: 30px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+    <header><h1>Platform Features & Tips</h1></header> 
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="features.html">Features</a>
+        <a href="community.html">Community</a>
+        <a href="contacts.html">Contact</a>
+    </nav>
+    <main class="container">
+        <h2 class="section-title">What SafeSpace Offers</h2>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h3>Total Anonymity</h3>
+                <p>We don't track your identity. Your username is hidden so you can speak from the heart without fear of social consequences.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Peer Support</h3>
+                <p>Connect with other students who are going through similar academic and personal pressures.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Safe Moderation</h3>
+                <p>Our community is built on kindness. We ensure that the environment remains helpful and non-judgmental.</p>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Mental Health Tips</h2>
+        <div class="tips-container">
+            
+            <!-- 🌿 Mental & Emotional Tips -->
+            <div class="tips-category-section">
+                <h3 class="tips-category-title">🌿 Mental & Emotional Tips</h3>
+                <ul class="tips-list">
+                    <li>Take deep breaths when you feel overwhelmed (like the 4-7-8 Breathing Technique)</li>
+                    <li>Write your thoughts in a journal</li>
+                    <li>Remind yourself that bad days don’t last forever</li>
+                    <li>It’s okay to not be okay sometimes</li>
+                    <li>Don’t be too hard on yourself</li>
+                    
+                    <!-- Integrated 3-3-3 Rule Grounding Technique Block -->
+                    <li style="border-bottom: none; padding-bottom: 0;">
+                        <div class="grounding-box">
+                            <span class="grounding-title">🧘‍♂️ Practice the 3-3-3 Rule for Anxiety (Grounding Technique)</span>
+                            <ul class="grounding-sublist">
+                                <li><strong>3 Things You See:</strong> Look around and identify three distinct objects in your immediate environment.</li>
+                                <li><strong>3 Things You Hear:</strong> Listen closely and identify three sounds you can pick up in your surroundings (e.g., a fan, distant traffic, or birds).</li>
+                                <li><strong>3 Things You Touch:</strong> Focus on three physical textures or sensations you feel (e.g., your shirt fabric, the chair beneath you, or the ground under your feet).</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 🧠 Study & Academic Stress Tips -->
+            <div class="tips-category-section">
+                <h3 class="tips-category-title">🧠 Study & Academic Stress Tips</h3>
+                <ul class="tips-list">
+                    <li>Break tasks into smaller steps</li>
+                    <li>Avoid cramming—review little by little</li>
+                    <li>Make a simple daily schedule</li>
+                    <li>Reward yourself after finishing tasks</li>
+                </ul>
+            </div>
+
+            <!-- 😌 Relaxation & Self-Care Tips -->
+            <div class="tips-category-section">
+                <h3 class="tips-category-title">😌 Relaxation & Self-Care Tips</h3>
+                <ul class="tips-list">
+                    <li>Listen to music you enjoy 🎧</li>
+                    <li>Take a short walk outside 🌲</li>
+                    <li>Drink water and eat properly</li>
+                    <li>Try stretching or light exercise (like Progressive Muscle Relaxation)</li>
+                    <li>Take a break from social media (Digital Detox)</li>
+                </ul>
+            </div>
+
+        </div>
+    </main>
+    <footer><p>&copy; 2026 SafeSpace | Supporting Student Well-being</p></footer>
+</body>
+</html>

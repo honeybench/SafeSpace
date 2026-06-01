@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeSpace - Community</title>
+    <style>
+        :root { --grad-start: #1fb1b1; --grad-end: #7ed957; --dark: #212121; --transition: all 0.3s ease-in-out; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #f0f2f5; }
+        header { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); color: white; padding: 40px; text-align: center; }
+        nav { background-color: var(--dark); padding: 15px; text-align: center; }
+        nav a { margin: 0 20px; text-decoration: none; color: white; font-weight: bold; transition: var(--transition); }
+        nav a:hover { color: var(--grad-end); }
+
+        .container { max-width: 800px; margin: 40px auto; padding: 20px; }
+        .post-box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid var(--grad-end); }
+        
+        textarea { width: 100%; height: 120px; border: 2px solid #e2e8f0; border-radius: 8px; padding: 15px; font-size: 16px; transition: var(--transition); box-sizing: border-box; }
+        textarea:focus { border-color: var(--grad-start); outline: none; }
+        
+        .btn { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: bold; margin-top: 15px; float: right; transition: var(--transition); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(31, 177, 177, 0.4); }
+
+        /* Custom feed layout matching your exact UI screenshots */
+        .feed-item-wrapper { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+        
+        .feed-item { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 15px; 
+            border-left: 5px solid var(--grad-start); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        }
+        .avatar { width: 50px; height: 50px; background: var(--grad-start); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; flex-shrink: 0; }
+
+        .post-main-content h4 { margin: 0 0 6px 0; font-size: 16px; color: #212121; }
+        .post-text-content { margin: 0; color: #444; font-size: 15px; line-height: 1.5; }
+
+        /* Actions styling matching the screenshots */
+        .action-bar { display: flex; gap: 15px; margin-top: 12px; font-size: 13px; }
+        .action-link { color: #777; text-decoration: none; font-weight: 500; cursor: pointer; transition: var(--transition); user-select: none; }
+        .action-link:hover { color: var(--grad-start); }
+        .action-link.delete-link:hover { color: #ff4d4d; }
+
+        /* Reply containers styled exactly to match the visual spacing rules */
+        .replies-container { margin-left: 45px; border-left: 2px dashed #cbd5e1; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; }
+        
+        .reply-item { 
+            background: white; 
+            padding: 15px 20px; 
+            border-radius: 10px; 
+            border-left: 4px solid var(--grad-end); 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+        }
+        .reply-item p { margin: 0; font-size: 14.5px; color: #333; }
+
+        /* Context Badge Tag to track specifically where it's replied */
+        .reply-context-tag {
+            font-size: 11.5px;
+            color: #1fb1b1;
+            font-weight: 600;
+            background: #e6f7f7;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 6px;
+            width: fit-content;
+        }
+
+        /* INTERACTIVE POP-UP MODALS STYLES */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 3000; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .modal-box { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transform: scale(0.8); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+        
+        .modal-title { margin-top: 0; color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; }
+        .modal-textarea { width: 100%; height: 100px; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; resize: none; box-sizing: border-box; font-family: inherit; font-size: 15px; }
+        .modal-textarea:focus { border-color: var(--grad-start); outline: none; }
+        
+        .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
+        .modal-btn { padding: 10px 20px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; transition: var(--transition); }
+        .modal-btn.cancel { background: #e2e8f0; color: #4a5568; }
+        .modal-btn.cancel:hover { background: #cbd5e1; }
+        .modal-btn.confirm-action { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); color: white; }
+        .modal-btn.confirm-action:hover { opacity: 0.9; }
+        .modal-btn.danger-action { background: #ff4d4d; color: white; }
+        .modal-btn.danger-action:hover { background: #e03e3e; }
+
+        footer { background-color: var(--dark); color: white; padding: 30px; text-align: center; margin-top: 50px; clear: both; }
+    </style>
+</head>
+<body>
+
+    <header><h1>Anonymous Sharing Platform</h1></header> 
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="features.html">Features</a>
+        <a href="community.html">Community</a>
+        <a href="contacts.html">Contact</a>
+    </nav>
+
+    <main class="container">
+        <div class="post-box">
+            <h3>Share Your Thoughts Anonymously</h3> 
+            <textarea id="thoughtInput" placeholder="Write freely and safely here..."></textarea> 
+            <button id="postBtn" class="btn">Post Anonymously</button>
+            <div style="clear:both;"></div>
+        </div>
+
+        <h3 style="margin-top:40px;">Community Feed</h3> 
+        
+        <div id="feedContainer">
+            </div>
+    </main>
+
+    <div class="modal-overlay" id="textInputModal">
+        <div class="modal-box">
+            <h3 class="modal-title" id="modalTitleText">Write Reply</h3>
+            <textarea class="modal-textarea" id="modalTextareaInput" placeholder="Type here..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" id="closeInputModalBtn">Cancel</button>
+                <button class="modal-btn confirm-action" id="saveInputModalBtn">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="confirmationModal">
+        <div class="modal-box" style="max-width: 400px; text-align: center;">
+            <h3 class="modal-title" style="color: #ff4d4d;">Remove Post?</h3>
+            <p style="color: #555; margin-bottom: 20px;">Are you sure you want to permanently remove this message stream? This action cannot be undone.</p>
+            <div class="modal-buttons" style="justify-content: center;">
+                <button class="modal-btn cancel" id="closeConfirmModalBtn">No, Keep It</button>
+                <button class="modal-btn danger-action" id="executeDeleteBtn">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 SafeSpace Group | Helping students manage stress and anxiety.</p> 
+    </footer>
+
+    <script>
+        const thoughtInput = document.getElementById('thoughtInput');
+        const postBtn = document.getElementById('postBtn');
+        const feedContainer = document.getElementById('feedContainer');
+
+        const textInputModal = document.getElementById('textInputModal');
+        const modalTitleText = document.getElementById('modalTitleText');
+        const modalTextareaInput = document.getElementById('modalTextareaInput');
+        const closeInputModalBtn = document.getElementById('closeInputModalBtn');
+        const saveInputModalBtn = document.getElementById('saveInputModalBtn');
+
+        const confirmationModal = document.getElementById('confirmationModal');
+        const closeConfirmModalBtn = document.getElementById('closeConfirmModalBtn');
+        const executeDeleteBtn = document.getElementById('executeDeleteBtn');
+
+        // Target tracking context variables
+        let targetParentPostId = null;
+        let targetReplyId = null; 
+        let activeActionType = ""; 
+
+        document.addEventListener('DOMContentLoaded', loadLocalStoragePosts);
+
+        postBtn.addEventListener('click', () => {
+            const textContent = thoughtInput.value.trim();
+            if (textContent === "") {
+                alert("Your thought cannot be empty!");
+                return;
+            }
+
+            const postObj = {
+                id: 'post_' + Date.now(),
+                text: textContent,
+                replies: []
+            };
+
+            savePostToLocalStorage(postObj);
+            renderPostCard(postObj, true);
+            thoughtInput.value = "";
+        });
+
+        function renderPostCard(post, isBrandNew) {
+            const wrapperElement = document.createElement('div');
+            wrapperElement.className = 'feed-item-wrapper';
+            wrapperElement.id = post.id;
+
+            wrapperElement.innerHTML = `
+                <div class="feed-item">
+                    <div class="avatar">AU</div>
+                    <div class="post-main-content" style="width: 100%;">
+                        <h4>Anonymous User</h4>
+                        <p class="post-text-content">"${post.text}"</p>
+                        <div class="action-bar">
+                            <span class="action-link" onclick="openModal('${post.id}', null, 'REPLY')">Reply</span>
+                            <span class="action-link" onclick="openModal('${post.id}', null, 'EDIT')">Edit</span>
+                            <span class="action-link delete-link" onclick="openDeleteModal('${post.id}', null)">Delete</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="replies-container" id="replies_container_${post.id}"></div>
+            `;
+
+            if (isBrandNew) {
+                feedContainer.insertBefore(wrapperElement, feedContainer.firstChild);
+            } else {
+                feedContainer.appendChild(wrapperElement);
+            }
+
+            if (post.replies && post.replies.length > 0) {
+                post.replies.forEach(replyObj => {
+                    appendReplyDOM(post.id, replyObj);
+                });
+            }
+        }
+
+        function appendReplyDOM(parentPostId, replyObj) {
+            const container = document.getElementById(`replies_container_${parentPostId}`);
+            if (!container) return;
+
+            const replyElement = document.createElement('div');
+            replyElement.className = 'reply-item';
+            replyElement.id = replyObj.id;
+            
+            // Build Context snippet display to identify where it's replied
+            const truncatedContext = replyObj.replyingToText.length > 30 
+                ? replyObj.replyingToText.substring(0, 30) + "..." 
+                : replyObj.replyingToText;
+
+            replyElement.innerHTML = `
+                <div class="reply-context-tag">⮪ Replying to: "${truncatedContext}"</div>
+                <p><strong>Anonymous Peer:</strong> <span class="reply-text-string">"${replyObj.text}"</span></p>
+                <div class="action-bar">
+                    <span class="action-link" onclick="openModal('${parentPostId}', '${replyObj.id}', 'REPLY')">Reply</span>
+                    <span class="action-link" onclick="openModal('${parentPostId}', '${replyObj.id}', 'EDIT')">Edit</span>
+                    <span class="action-link delete-link" onclick="openDeleteModal('${parentPostId}', '${replyObj.id}')">Delete</span>
+                </div>
+            `;
+            container.appendChild(replyElement);
+        }
+
+        // --- INTERACTIVE POPUP CONFIGURATION LAYER ---
+        function openModal(parentId, replyId, action) {
+            targetParentPostId = parentId;
+            targetReplyId = replyId;
+            activeActionType = action;
+            modalTextareaInput.value = "";
+
+            let postsArray = JSON.parse(localStorage.getItem('safeSpaceData')) || [];
+            const mainPost = postsArray.find(p => p.id === parentId);
+
+            if (action === "REPLY") {
+                modalTitleText.textContent = replyId ? "Reply to Anonymous Peer" : "Write Anonymous Reply";
+                modalTextareaInput.placeholder = "Write your supportive words here...";
+                saveInputModalBtn.textContent = "Submit Reply";
+            } else if (action === "EDIT") {
+                modalTitleText.textContent = "Modify Your Message";
+                saveInputModalBtn.textContent = "Save Changes";
+                
+                if (mainPost) {
+                    if (replyId) {
+                        const targetReply = mainPost.replies.find(r => r.id === replyId);
+                        if (targetReply) modalTextareaInput.value = targetReply.text;
+                    } else {
+                        modalTextareaInput.value = mainPost.text;
+                    }
+                }
+            }
+
+            textInputModal.classList.add('active');
+            modalTextareaInput.focus();
+        }
+
+        closeInputModalBtn.addEventListener('click', () => textInputModal.classList.remove('active'));
+
+        // --- SUBMIT SAVE PIPELINE ---
+        saveInputModalBtn.addEventListener('click', () => {
+            const inputValue = modalTextareaInput.value.trim();
+            if (inputValue === "") {
+                alert("Message field cannot be empty!");
+                return;
+            }
+
+            let postsArray = JSON.parse(localStorage.getItem('safeSpaceData')) || [];
+            const mainPost = postsArray.find(p => p.id === targetParentPostId);
+
+            if (mainPost) {
+                if (activeActionType === "REPLY") {
+                    // Find what content string we are replying to explicitly
+                    let contextString = mainPost.text; 
+                    if (targetReplyId) {
+                        const subReply = mainPost.replies.find(r => r.id === targetReplyId);
+                        if (subReply) contextString = subReply.text;
+                    }
+
+                    const newReplyObj = {
+                        id: 'reply_' + Date.now(),
+                        text: inputValue,
+                        replyingToText: contextString // Tracks context relationship mapping data
+                    };
+                    
+                    if (!mainPost.replies) mainPost.replies = [];
+                    mainPost.replies.push(newReplyObj);
+                    
+                    appendReplyDOM(targetParentPostId, newReplyObj);
+
+                } else if (activeActionType === "EDIT") {
+                    if (targetReplyId) {
+                        // Locate specific nested peer instance object mapping array
+                        const targetReply = mainPost.replies.find(r => r.id === targetReplyId);
+                        if (targetReply) {
+                            targetReply.text = inputValue;
+                            document.getElementById(targetReplyId).querySelector('.reply-text-string').textContent = `"${inputValue}"`;
+                        }
+                    } else {
+                        mainPost.text = inputValue;
+                        document.getElementById(targetParentPostId).querySelector('.post-text-content').textContent = `"${inputValue}"`;
+                    }
+                }
+                localStorage.setItem('safeSpaceData', JSON.stringify(postsArray));
+            }
+            textInputModal.classList.remove('active');
+        });
+
+        // --- DELETION HANDLING PIPELINES ---
+        function openDeleteModal(parentId, replyId) {
+            targetParentPostId = parentId;
+            targetReplyId = replyId;
+            confirmationModal.classList.add('active');
+        }
+
+        closeConfirmModalBtn.addEventListener('click', () => confirmationModal.classList.remove('active'));
+
+        executeDeleteBtn.addEventListener('click', () => {
+            let postsArray = JSON.parse(localStorage.getItem('safeSpaceData')) || [];
+
+            if (targetReplyId) {
+                const mainPost = postsArray.find(p => p.id === targetParentPostId);
+                if (mainPost && mainPost.replies) {
+                    mainPost.replies = mainPost.replies.filter(r => r.id !== targetReplyId);
+                    const el = document.getElementById(targetReplyId);
+                    if (el) el.remove();
+                }
+            } else {
+                postsArray = postsArray.filter(p => p.id !== targetParentPostId);
+                const el = document.getElementById(targetParentPostId);
+                if (el) el.remove();
+            }
+
+            localStorage.setItem('safeSpaceData', JSON.stringify(postsArray));
+            confirmationModal.classList.remove('active');
+        });
+
+        // PERSISTENCE STORAGE CONTROLLERS
+        function savePostToLocalStorage(post) {
+            let postsArray = localStorage.getItem('safeSpaceData') ? JSON.parse(localStorage.getItem('safeSpaceData')) : [];
+            postsArray.unshift(post);
+            localStorage.setItem('safeSpaceData', JSON.stringify(postsArray));
+        }
+
+        function loadLocalStoragePosts() {
+            feedContainer.innerHTML = "";
+            let postsArray = localStorage.getItem('safeSpaceData') ? JSON.parse(localStorage.getItem('safeSpaceData')) : [];
+            postsArray.forEach(post => renderPostCard(post, false));
+        }
+    </script>
+</body>
+</html>
